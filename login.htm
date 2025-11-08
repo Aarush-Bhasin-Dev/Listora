@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Listora – Welcome Back</title>
+  <script type="module" src="register.js" defer></script>
+  <script type="module" src="login.js" defer></script>
+  
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      background: linear-gradient(-45deg, #7b2ff7, #0ea5e9, #ff4da6, #ffd1ea);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      animation: float 20s infinite linear;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Glass card */
+    .login-card {
+      position: relative;
+      z-index: 10;
+      width: 420px;
+      padding: 50px 40px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      text-align: center;
+      animation: cardAppear 1s ease-out;
+    }
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(50px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, #ddd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    p {
+      color: rgba(255,255,255,0.8);
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    button:before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: 0.7s;
+    }
+    button:hover:before { left: 100%; }
+
+    .google {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+    }
+    .google:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(66,133,244,0.4);
+    }
+
+    .email {
+      background: linear-gradient(135deg, #34a853, #46c261);
+      color: white;
+    }
+    .email:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(52,168,83,0.5);
+    }
+
+    .signup {
+      background: transparent;
+      color: rgba(255,255,255,0.9);
+      border: 1.5px solid rgba(255,255,255,0.4);
+    }
+    .signup:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-3px);
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: white;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* New login and signup form styles */
+    #emailLoginForm, #signUpForm {
+      margin-top: 20px;
+      display: none;
+      text-align: left;
+    }
+    #emailLoginForm label, #signUpForm label {
+      display: block;
+      color: #fff;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    #emailLoginForm input, #signUpForm input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+    }
+    #emailLoginForm button[type="submit"], #signUpForm button[type="submit"] {
+      background: linear-gradient(135deg, #34a853, #46c261);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="particles" id="particles"></div>
+
+  <div class="login-card">
+    <div class="logo">L</div>
+    <h1>Listora</h1>
+    <p>Organize your chaos. Beautifully.</p>
+
+    <div class="flex flex-col items-center gap-2">
+
+  <!-- BOUNCING "SOON!" -->
+  <div class="text-center">
+    <span class="inline-block text-red-600 text-xs font-bold animate-bounce">
+      SOON!
+    </span>
+  </div>
+
+
+
+</div>
+    
+
+    <button class="google" id="googleBtn" onclick="googleLogin()">
+      Continue with Google
+    </button>
+
+    <button class="email" id="showLoginBtn" onclick="showEmailLoginForm()">
+      Login with Email
+    </button>
+
+    <button class="signup" id="showSignUpBtn" onclick="showSignUpForm()">
+      Create Free Account
+    </button>
+
+    <form id="emailLoginForm">
+      <label for="email">Email or Username:</label>
+      <input type="text" id="email" name="email" placeholder="Enter your email or username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+      <button type="submit" id="loginSubmit">Login</button>
+    </form>
+
+    <form id="signUpForm">
+      <label for="signupEmail">Email:</label>
+      <input type="email" id="signupEmail" name="signupEmail" placeholder="Enter your email" required>
+
+      <label for="signupPassword">Password (6+ chars):</label>
+      <input type="password" id="signupPassword" name="signupPassword" placeholder="Enter your password" minlength="6" required>
+
+      <button type="submit" id="signupSubmit">Create Account</button>
+    </form>
+
+    <p style="margin-top:30px;font-size:13px;color:rgba(255,255,255,0.6);">
+      By continuing, you agree to our <a href="#" style="color:#fff;text-decoration:underline;">Terms</a> & <a href="#" style="color:#fff;text-decoration:underline;">Privacy</a>
+    </p>
+  </div>
+
+   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // YOUR FIREBASE CONFIG
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4NhgL-O7qxR5_MNh01_2G1kt0C7CEAhc",
+      authDomain: "listora-7548c.firebaseapp.com",
+      projectId: "listora-7548c",
+      storageBucket: "listora-7548c.firebasestorage.app",
+      messagingSenderId: "819578298903",
+      appId: "1:819578298903:web:85fb730ba00e332092b252",
+      measurementId: "G-RF4KB9QER8"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Show the email login form
+    function showEmailLoginForm() {
+      const form = document.getElementById('emailLoginForm');
+      const signUpForm = document.getElementById('signUpForm');
+      signUpForm.style.display = 'none'; // hide signup if shown
+
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Show the sign up form
+    function showSignUpForm() {
+      const signUpForm = document.getElementById('signUpForm');
+      const form = document.getElementById('emailLoginForm');
+      form.style.display = 'none'; // hide login if shown
+
+      signUpForm.style.display = signUpForm.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // LOGIN FUNCTIONS
+    window.googleLogin = () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(() => window.location.href = "index.htm") // your main app page
+        .catch(err => alert("Login failed: " + err.message));
+    };
+
+    // Email login with the visible form
+    document.getElementById('emailLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => window.location.href = "index.htm")
+        .catch(err => alert("Login failed: " + err.message));
+    });
+
+    // Sign up form submission
+    document.getElementById('signUpForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = e.target.signupEmail.value;
+      const password = e.target.signupPassword.value;
+
+      if (password.length < 6) {
+        alert("Password must be 6+ characters!");
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Sign up successful! Please log in.");
+          // optionally clear or hide the sign-up form here
+          // document.getElementById('signUpForm').reset();
+          // signUpForm.style.display = 'none';
+        })
+        .catch(err => alert("Sign up failed: " + err.message));
+    });
+
+    // Floating particles
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 60; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      p.style.width = p.style.height = Math.random() * 8 + 4 + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 20 + 's';
+      p.style.animationDuration = 15 + Math.random() * 15 + 's';
+      particlesContainer.appendChild(p);
+    }
+  </script>
+</body>
+</html>
+  
